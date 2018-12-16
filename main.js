@@ -11,14 +11,25 @@ function playSound() {
 }
 
 async function main() {
-  let timeLeft = 10;
-  while (timeLeft > 0) {
-    console.log(`Remaining: ${timeLeft}`);
-    timeLeft -= 1;
-    await sleep(1000);
+  if (process.argv.length < 3) {
+    console.log("Please provide a duration in minutes to countdown.");
+    process.exit(1);
   }
-  playSound();
-  console.log("Time elapsed!");
+
+  try {
+    const duration = process.argv[2] * 60;
+    let timeLeft = duration;
+    while (timeLeft > 0) {
+      console.log(`Remaining: ${timeLeft}`);
+      timeLeft -= 1;
+      await sleep(1000);
+    }
+    playSound();
+    console.log("Time elapsed!");
+  } catch (e) {
+    console.log(e);
+    process.exit(1);
+  }
 }
 
 main();
